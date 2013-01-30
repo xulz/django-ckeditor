@@ -1,0 +1,39 @@
+<script type="text/javascript">
+<!--
+	// FeinCMS Draggable contentblock compatibility
+	load_feincms = true;
+	CKEDITOR_INSTANCE_CONFIG = {};
+	if (load_feincms && typeof contentblock_move_handlers !== "undefined") {
+		function feincms_richtext_remove_ckeditor(field) {
+			var id = field ? field.id : this.id;
+			if (id in CKEDITOR.instances) {
+				CKEDITOR_INSTANCE_CONFIG[id] = CKEDITOR.instances[id].config;
+				CKEDITOR.instances[id].destroy();
+			}
+		}
+
+		function feincms_richtext_add_ckeditor(field) {
+			var id = field ? field.id : this.id;
+			if (!(id in CKEDITOR.instances)) {
+				CKEDITOR.replace(id, CKEDITOR_INSTANCE_CONFIG[id]);
+			}
+		}
+		contentblock_move_handlers.poorify.push(function(item) {
+			item.find('textarea[class=django-ckeditor]').each(feincms_richtext_remove_ckeditor);
+		});
+		contentblock_move_handlers.richify.push(function(item) {
+			item.find('textarea[class=django-ckeditor]').each(feincms_richtext_add_ckeditor);
+		});
+		load_feincms = false;
+	}
+
+	window.Django_CKEditor_Configs.push({
+		re: /{{ regex }}/,
+		config: {{ config|safe }}
+	});
+
+	{% if filebrowser %}
+		CKEDITOR.config.filebrowserBrowseUrl = '/admin/filebrowser/browse/?pop=3';
+	{% endif %}
+-->
+</script>
