@@ -12,7 +12,7 @@ Setup
 Install the package with [pip][]:
 
     
-    pip install -e git://github.com/xulz/django-ckeditor.git#egg=django-ckeditor
+    pip install git+https://github.com/xulz/django-ckeditor.git#egg=django-ckeditor
 
 [pip]: http://pip.openplans.org/
 
